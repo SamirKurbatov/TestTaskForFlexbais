@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestTask.Commands
+﻿
+namespace TestTask
 {
-    public class ReplaceCommand
+    public class NumberReplacer
     {
-        public List<string> GetReplacedNumbers(IEnumerable<int> numbers, List<Number> replacementRules)
-        {
-            if (numbers is null) throw new ArgumentNullException(nameof(numbers));
-            if (replacementRules is null) throw new ArgumentNullException(nameof(replacementRules));
+        private readonly IEnumerable<int> numbers;
 
-            var resultList = new List<string>();
+        private readonly IEnumerable<Number> replacementRules;
+
+        public NumberReplacer(IEnumerable<int> numbers, IEnumerable<Number> replacementRules)
+        {
+            if (numbers is null)  throw new ArgumentNullException(nameof(numbers));
+            if (replacementRules is null)  throw new ArgumentNullException(nameof(replacementRules));
+
+            this.numbers = numbers;
+            this.replacementRules = replacementRules;
+        }
+
+        public IEnumerable<string> GetReplacedNumbers()
+        {
+            var resultNumbersCollection = new List<string>();
 
             foreach (int number in numbers)
             {
@@ -26,15 +31,15 @@ namespace TestTask.Commands
 
                 if (replacements.Count == 0)
                 {
-                    resultList.Add(number.ToString());
+                    resultNumbersCollection.Add(number.ToString());
                 }
                 else
                 {
-                    resultList.Add(string.Join("-", replacements));
+                    resultNumbersCollection.Add(string.Join("-", replacements));
                 }
             }
 
-            return resultList;
+            return resultNumbersCollection;
         }
 
         private static void InsertKeyWordBeforeNumber(

@@ -1,23 +1,29 @@
-﻿public class PrintCommand<T> : ICommand
-{
-    private readonly IEnumerable<T> repository;
+﻿using TestTask;
 
-    public PrintCommand(IEnumerable<T> repository)
+public class PrintCommand : ICommand
+{
+    private readonly NumberReplacer numberReplacer;
+
+    public PrintCommand(NumberReplacer numberReplacer)
     {
-        this.repository = repository;
+        this.numberReplacer = numberReplacer;
     }
 
     public bool CanExecute()
-        => repository != null && repository.Count() != 0;
+        => numberReplacer != null;
 
     public void Execute()
     {
-        if (!CanExecute()) return;
+        if (!CanExecute()) 
+            return;
 
-        foreach (var item in repository)
+        IEnumerable<string> replacedNumbers = numberReplacer.GetReplacedNumbers();
+
+        foreach (var item in replacedNumbers)
         {
             Console.Write(item + ",");
         }
+
         Console.Write("\n");
     }
 }
