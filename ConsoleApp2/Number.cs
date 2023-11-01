@@ -6,7 +6,10 @@
 
     public Number(string replacedWord, int reason)
     {
+        if (replacedWord == null) throw new ArgumentNullException(nameof(replacedWord));
+
         ReplacedWord = replacedWord.ToLower();
         Reason = reason;
     }
 }
+
